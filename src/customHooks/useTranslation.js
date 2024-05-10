@@ -24,9 +24,17 @@ function defaultTranslate(str) {
 
 const loadedTranslations = {};
 
-export function useTranslation(lang, translationStrings) {  
-  const [translationLoaded, setTranslationLoaded] = useState(false);
-  
+export function useTranslation(lang, loadTranslationsFile) { 
+  const [translationStrings, setTranslationStrings] = useState({});
+  useEffect(() => {
+    async function asyncFunc() {
+      const { default: translationObj } = await loadTranslationsFile();
+      setTranslationStrings(translationObj);
+    };
+    asyncFunc();
+  }, [lang]);
+
+  const [translationLoaded, setTranslationLoaded] = useState(false);  
   useEffect(() => {
     async function asyncFunc() {
       setTranslationLoaded(false);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import SectionHeader from '../SectionHeader/SectionHeader';
@@ -17,16 +17,7 @@ const FieldsContainer = styled.div`
 `;
 
 export default function GeneralDetailsSection({resource, lang = 'en-US'}) {
-    const [translationStrings, setTranslationStrings] = useState({});
-    useEffect(() => {
-        async function asyncFunc() {
-            const { default: translationObj } = await import(`./locales/${lang}/strings.json`);
-            setTranslationStrings(translationObj);
-        };
-        asyncFunc();
-    }, [lang]);
-
-    const { t, translationLoaded } = useTranslation(lang, translationStrings);
+    const { t, translationLoaded } = useTranslation(lang, () => import(`./locales/${lang}/strings.json`));
     if (!translationLoaded) {
         return null;
     }
