@@ -1,8 +1,8 @@
 {
-  "GENERAL_DETAILS_SECTION_TITLE": "Detalles Generales",
-  "GENERAL_DETAILS_SECTION_SUB_TITLE": "Sección de Detalles Generales",
-  "GENERAL_DETAILS_SECTION_FIELD_TITLE_NAME": "Nombre",
-  "GENERAL_DETAILS_SECTION_FIELD_TITLE_DESCRIPTION": "Descripción",
-  "GENERAL_DETAILS_SECTION_FIELD_TITLE_RESOURCE_TYPE": "Tipo de Recurso",
-  "GENERAL_DETAILS_SECTION_FIELD_TITLE_RESOURCE_PATH": "Ruta"
+  "TITLE": "Detalles Generales",
+  "SUB_TITLE": "Sección de Detalles Generales",
+  "FIELD_TITLE_NAME": "Nombre",
+  "FIELD_TITLE_DESCRIPTION": "Descripción",
+  "FIELD_TITLE_RESOURCE_TYPE": "Tipo de Recurso",
+  "FIELD_TITLE_RESOURCE_PATH": "Ruta"
 }

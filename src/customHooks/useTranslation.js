@@ -24,7 +24,7 @@ function defaultTranslate(str) {
 
 const loadedTranslations = {};
 
-export function useTranslation(lang, loadTranslationsFile) { 
+export function useTranslation({ lang, loadTranslationsFile, componentId }) { 
   const [translationStrings, setTranslationStrings] = useState({});
   useEffect(() => {
     async function asyncFunc() {
@@ -38,7 +38,7 @@ export function useTranslation(lang, loadTranslationsFile) {
   useEffect(() => {
     async function asyncFunc() {
       setTranslationLoaded(false);
-      await initTranslation({ lang, translation: loadedTranslations[lang] });
+      await initTranslation({ lang, translation: loadedTranslations[lang][componentId] });
       setTranslationLoaded(true);
     }
 
@@ -46,12 +46,11 @@ export function useTranslation(lang, loadTranslationsFile) {
       return;
     }
     if (loadedTranslations[lang]) {
-      loadedTranslations[lang] = {
-        ...loadedTranslations[lang],
-        ...translationStrings
+      if (!loadedTranslations[lang][componentId]) {
+        loadedTranslations[lang][componentId] = translationStrings;
       }
     } else {
-      loadedTranslations[lang] = translationStrings;
+      loadedTranslations[lang] = { [componentId]: translationStrings };
     }
     asyncFunc();
   }, [translationStrings]);

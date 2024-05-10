@@ -10,15 +10,19 @@ const ResourceHeaderText = styled(HeaderText)`
 `;
 
 export default function ResourcesHeader({lang = 'en-US'}) {
-    const { t, translationLoaded } = useTranslation(lang, () => import(`./locales/${lang}/strings.json`));
+    const { t, translationLoaded } = useTranslation({
+        lang,
+        loadTranslationsFile: () => import(`./locales/${lang}/strings.json`),
+        componentId: 'RESOURCES_HEADER'
+    });
     if (!translationLoaded) {
         return null;
     }
 
     return (
         <>
-            <ResourceHeaderText>{t('RESOURCES_HEADER_TITLE')}</ResourceHeaderText>
-            <SubHeaderText>{t('RESOURCES_HEADER_SUBTITLE')}</SubHeaderText>
+            <ResourceHeaderText>{t('TITLE')}</ResourceHeaderText>
+            <SubHeaderText>{t('SUBTITLE')}</SubHeaderText>
         </>
     );
 }

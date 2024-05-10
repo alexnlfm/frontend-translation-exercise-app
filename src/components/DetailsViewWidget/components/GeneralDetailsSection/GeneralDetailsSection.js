@@ -17,31 +17,35 @@ const FieldsContainer = styled.div`
 `;
 
 export default function GeneralDetailsSection({resource, lang = 'en-US'}) {
-    const { t, translationLoaded } = useTranslation(lang, () => import(`./locales/${lang}/strings.json`));
+    const { t, translationLoaded } = useTranslation({
+        lang,
+        loadTranslationsFile: () => import(`./locales/${lang}/strings.json`),
+        componentId: 'GENERAL_DETAILS_SECTION'
+    });
     if (!translationLoaded) {
         return null;
     }
     
     const sectionHeaderProps = {
-        headerText: t('GENERAL_DETAILS_SECTION_TITLE'),
-        subHeaderText: t('GENERAL_DETAILS_SECTION_SUB_TITLE')
+        headerText: t('TITLE'),
+        subHeaderText: t('SUB_TITLE')
     };
     const {name, description, resourceType, path} = resource;
     const nameProps = {
         value: name,
-        label: t('GENERAL_DETAILS_SECTION_FIELD_TITLE_NAME')
+        label: t('FIELD_TITLE_NAME')
     };
     const descriptionProps = {
         value: description,
-        label: t('GENERAL_DETAILS_SECTION_FIELD_TITLE_DESCRIPTION')
+        label: t('FIELD_TITLE_DESCRIPTION')
     };
     const resourceTypeProps = {
         value: resourceType,
-        label: t('GENERAL_DETAILS_SECTION_FIELD_TITLE_RESOURCE_TYPE')
+        label: t('FIELD_TITLE_RESOURCE_TYPE')
     };
     const pathProps = {
         value: path,
-        label: t('GENERAL_DETAILS_SECTION_FIELD_TITLE_RESOURCE_PATH')
+        label: t('FIELD_TITLE_RESOURCE_PATH')
     };
     return (
         <SectionContainer>
