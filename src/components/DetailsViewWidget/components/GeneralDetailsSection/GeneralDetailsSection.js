@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import SectionHeader from '../SectionHeader/SectionHeader';
 import {ReadOnlyTextArea, TextField} from '../../../fields';
+import {useTranslation} from '../../../../customHooks/useTranslation';
 
 const SectionContainer = styled.div`
     width: 60%;
@@ -15,8 +16,21 @@ const FieldsContainer = styled.div`
     margin-top: 6px;
 `;
 
-export default function GeneralDetailsSection({resource}) {
-    const {t} = global;
+export default function GeneralDetailsSection({resource, lang = 'en-US'}) {
+    const [translationStrings, setTranslationStrings] = useState({});
+    useEffect(() => {
+        async function asyncFunc() {
+            const { default: translationObj } = await import(`./locales/${lang}/strings.json`);
+            setTranslationStrings(translationObj);
+        };
+        asyncFunc();
+    }, [lang]);
+
+    const { t, translationLoaded } = useTranslation(lang, translationStrings);
+    if (!translationLoaded) {
+        return null;
+    }
+    
     const sectionHeaderProps = {
         headerText: t('GENERAL_DETAILS_SECTION_TITLE'),
         subHeaderText: t('GENERAL_DETAILS_SECTION_SUB_TITLE')
@@ -52,5 +66,6 @@ export default function GeneralDetailsSection({resource}) {
 }
 
 GeneralDetailsSection.propTypes = {
-    resource: PropTypes.object
+    resource: PropTypes.object,
+    lang: PropTypes.string
 };
