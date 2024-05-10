@@ -26,7 +26,21 @@ const HeaderPanelText = styled(HeaderText)`
   margin-left: 5px;
 `;
 
-export default function HeaderPanel({currentLang, setLang}) {
+const LangRadioBtnsSection = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 20px;
+`;
+
+const LangRadio = ({ value, currentLang, label, setLang }) => (
+  <HeaderPanelText>
+    <input type="radio" id={value} value={value} onClick={setLang} checked={currentLang === value} style={{ marginRight: 5 }} />
+    <label for={value}>{label}</label>
+  </HeaderPanelText>
+)
+
+export default function HeaderPanel(props) {
     const logoProps = {
         src: logo,
         alt: 'Logo'
@@ -35,14 +49,10 @@ export default function HeaderPanel({currentLang, setLang}) {
         <HeaderPanelContainer>
             <Logo {...logoProps} />
             <HeaderPanelText>PlainID- Demo App</HeaderPanelText>
-            <div>
-              <input type="radio" id="en-US" value="en-US" onClick={setLang} checked={currentLang === 'en-US'} />
-              <label for="en-US">English</label>
-            </div>
-            <div>
-              <input type="radio" id="es" value="es" onClick={setLang} checked={currentLang === 'es'}/>
-              <label for="es">Spanish</label>
-            </div>
+            <LangRadioBtnsSection>       
+              <LangRadio value="en-US" label="English" {...props} />
+              <LangRadio value="es" label="Spanish" {...props} />
+            </LangRadioBtnsSection>
         </HeaderPanelContainer>
     );
 }
