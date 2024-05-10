@@ -34,9 +34,16 @@ const LangRadioBtnsSection = styled.div`
 `;
 
 const LangRadio = ({ value, currentLang, label, setLang }) => (
-  <HeaderPanelText>
-    <input type="radio" id={value} value={value} onClick={setLang} checked={currentLang === value} style={{ marginRight: 5 }} />
-    <label for={value}>{label}</label>
+  <HeaderPanelText style={{ cursor: 'pointer' }}>
+    <input
+      type="radio"
+      id={value}
+      value={value}
+      onClick={setLang}
+      checked={currentLang === value}
+      style={{ cursor: 'pointer' }}
+    />
+    <label for={value} style={{ paddingLeft: 5, cursor: 'pointer' }}>{label}</label>
   </HeaderPanelText>
 )
 
