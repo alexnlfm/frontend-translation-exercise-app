@@ -26,7 +26,7 @@ const HeaderPanelText = styled(HeaderText)`
   margin-left: 5px;
 `;
 
-export default function HeaderPanel() {
+export default function HeaderPanel({currentLang, setLang}) {
     const logoProps = {
         src: logo,
         alt: 'Logo'
@@ -35,6 +35,14 @@ export default function HeaderPanel() {
         <HeaderPanelContainer>
             <Logo {...logoProps} />
             <HeaderPanelText>PlainID- Demo App</HeaderPanelText>
+            <div>
+              <input type="radio" id="en-US" value="en-US" onClick={setLang} checked={currentLang === 'en-US'} />
+              <label for="en-US">English</label>
+            </div>
+            <div>
+              <input type="radio" id="es" value="es" onClick={setLang} checked={currentLang === 'es'}/>
+              <label for="es">Spanish</label>
+            </div>
         </HeaderPanelContainer>
     );
 }

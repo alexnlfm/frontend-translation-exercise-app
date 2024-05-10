@@ -26,7 +26,8 @@ export default class App extends Component {
     }
 
     init = async () => {
-        await initTranslation({lang: 'en-US'});
+        const lang = this.state.currentLang;
+        await initTranslation({lang});
         this.setState({initCompleted: true});
     };
 
@@ -34,7 +35,15 @@ export default class App extends Component {
         initCompleted: false,
         resources: [],
         actions: [],
-        selectedResourceId: ''
+        selectedResourceId: '',
+        currentLang: 'en-US'
+    };
+
+    setLang = event => {
+        const newLang = event.target.value;
+        if (newLang !== this.state.currentLang) {
+            this.setState({currentLang: newLang});
+        }
     };
     setResources = resources => {
         this.setState({resources});
@@ -86,9 +95,10 @@ export default class App extends Component {
 
     render() {
         const {
-            state: {initCompleted, resources, actions, selectedResourceId},
+            state: {initCompleted, resources, actions, selectedResourceId, currentLang},
             filterResources,
-            selectResource
+            selectResource,
+            setLang
         } = this;
 
         const selectedResource = resources.find(
@@ -101,14 +111,16 @@ export default class App extends Component {
 
         const detailsViewProps = {
             resource: selectedResource,
-            resourceActions: selectedResourceActions
+            resourceActions: selectedResourceActions,
+            currentLang
         };
 
         const resourcesProps = {
             resources,
             filterResources,
             selectResource,
-            selectedResourceId
+            selectedResourceId,
+            currentLang
         };
 
         if (!initCompleted)
@@ -118,7 +130,7 @@ export default class App extends Component {
             <Suspense fallback={null}>
                 <GlobalStyle/>
                 <ApplicationContainer>
-                    <HeaderPanel/>
+                    <HeaderPanel currentLang={currentLang} setLang={setLang} />
                     <MainContainer>
                         <ResourcesContainer {...resourcesProps} />
                         <DetailsViewContainer {...detailsViewProps} />

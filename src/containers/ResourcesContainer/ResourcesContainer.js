@@ -37,7 +37,7 @@ export default class ResourcesContainer extends React.Component {
 
     render() {
         const {
-            props: {resources, selectResource, selectedResourceId},
+            props: {resources, selectResource, selectedResourceId, currentLang},
             state: {filteredValue},
             onFilteredValueChange
         } = this;
@@ -53,7 +53,7 @@ export default class ResourcesContainer extends React.Component {
         return (
             <AsideContainer>
                 <FilterAndHeaderContainer>
-                    <ResourcesHeader/>
+                    <ResourcesHeader lang={currentLang} />
                     <ResourcesFilterField {...filterFieldProps} />
                 </FilterAndHeaderContainer>
                 <nav>

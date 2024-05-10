@@ -18,13 +18,13 @@ const ContentContainer = styled.div`
   flex: 1;
 `;
 
-export default function DetailsViewWidget({resource, resourceActions}) {
+export default function DetailsViewWidget({resource, resourceActions, currentLang}) {
     const {name: resourceName} = resource;
     return (
         <WidgetContainer>
             <DetailsHeader {...{resourceName}} />
             <ContentContainer>
-                <GeneralDetailsSection {...{resource}} />
+                <GeneralDetailsSection {...{resource}} lang={currentLang} />
                 <ActionsSection {...{resourceActions}} />
             </ContentContainer>
         </WidgetContainer>
