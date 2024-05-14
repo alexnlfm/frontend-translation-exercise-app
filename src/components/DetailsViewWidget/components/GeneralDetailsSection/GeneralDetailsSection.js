@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import SectionHeader from '../SectionHeader/SectionHeader';
 import {ReadOnlyTextArea, TextField} from '../../../fields';
-import {useTranslation} from '../../../../customHooks/useTranslation';
+import {subscribe, useComponentTranslation} from '../../../../customHooks/useComponentTranslation';
 
 const SectionContainer = styled.div`
     width: 60%;
@@ -17,36 +17,44 @@ const FieldsContainer = styled.div`
 `;
 
 export default function GeneralDetailsSection({resource, lang = 'en-US'}) {
-    const { t, translationLoaded } = useTranslation({
+    const [_, setForceUpdate] = useState(false);
+    useEffect(() => {
+        const subscription = subscribe('GENERAL_DETAILS_SECTION_SHOULD_RERENDER', () => {
+            setForceUpdate(prevState => !prevState);
+        });
+        return () => {
+          subscription.unsubscribe();
+        };
+    }, []);
+
+    const { t } = useComponentTranslation({
         lang,
-        loadTranslationsFile: () => import(`./locales/${lang}/strings.json`),
-        componentId: 'GENERAL_DETAILS_SECTION'
+        namespace: 'GENERAL_DETAILS_SECTION',
+        loadTranslationsFile: () => import(`./locales/${lang}/strings.json`)
     });
-    if (!translationLoaded) {
-        return null;
-    }
     
+    const translationOptions = { lng: lang, ns: 'GENERAL_DETAILS_SECTION' };
     const sectionHeaderProps = {
-        headerText: t('TITLE'),
-        subHeaderText: t('SUB_TITLE')
+        headerText: t('TITLE', translationOptions),
+        subHeaderText: t('SUB_TITLE', translationOptions)
     };
     const {name, description, resourceType, path} = resource;
     const nameProps = {
         value: name,
-        label: t('FIELD_TITLE_NAME')
+        label: t('FIELD_TITLE_NAME', translationOptions)
     };
     const descriptionProps = {
         value: description,
-        label: t('FIELD_TITLE_DESCRIPTION')
+        label: t('FIELD_TITLE_DESCRIPTION', translationOptions)
     };
     const resourceTypeProps = {
         value: resourceType,
-        label: t('FIELD_TITLE_RESOURCE_TYPE')
+        label: t('FIELD_TITLE_RESOURCE_TYPE', translationOptions)
     };
     const pathProps = {
         value: path,
-        label: t('FIELD_TITLE_RESOURCE_PATH')
-    };
+        label: t('FIELD_TITLE_RESOURCE_PATH', translationOptions)
+    };    
     return (
         <SectionContainer>
             <SectionHeader {...sectionHeaderProps} />

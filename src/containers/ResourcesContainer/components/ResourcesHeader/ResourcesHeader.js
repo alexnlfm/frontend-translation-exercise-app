@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+
 import {HeaderText, SubHeaderText} from '../../../../styles/commonStyles';
-import {useTranslation} from '../../../../customHooks/useTranslation';
+import {subscribe, useComponentTranslation} from '../../../../customHooks/useComponentTranslation';
 
 const ResourceHeaderText = styled(HeaderText)`
     color: #686868;
@@ -10,19 +11,27 @@ const ResourceHeaderText = styled(HeaderText)`
 `;
 
 export default function ResourcesHeader({lang = 'en-US'}) {
-    const { t, translationLoaded } = useTranslation({
-        lang,
-        loadTranslationsFile: () => import(`./locales/${lang}/strings.json`),
-        componentId: 'RESOURCES_HEADER'
-    });
-    if (!translationLoaded) {
-        return null;
-    }
+    const [_, setForceUpdate] = useState(false);
+    useEffect(() => {
+        const subscription = subscribe('RESOURCES_HEADER_SHOULD_RERENDER', () => {
+            setForceUpdate(prevState => !prevState);
+        });
+        return () => {
+          subscription.unsubscribe();
+        };
+    }, []);
 
+    const { t } = useComponentTranslation({
+        lang,
+        namespace: 'RESOURCES_HEADER',
+        loadTranslationsFile: () => import(`./locales/${lang}/strings.json`)
+    });
+
+    const translationOptions = { lng: lang, ns: 'RESOURCES_HEADER' };    
     return (
         <>
-            <ResourceHeaderText>{t('TITLE')}</ResourceHeaderText>
-            <SubHeaderText>{t('SUBTITLE')}</SubHeaderText>
+            <ResourceHeaderText>{t('TITLE', translationOptions)}</ResourceHeaderText>
+            <SubHeaderText>{t('SUBTITLE', translationOptions)}</SubHeaderText>
         </>
     );
 }

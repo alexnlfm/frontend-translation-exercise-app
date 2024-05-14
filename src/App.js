@@ -1,6 +1,5 @@
 import React, {Component, Suspense} from 'react';
 import MockService from './services/mockService';
-import {init as initTranslation} from './services/translation';
 import styled from 'styled-components';
 import HeaderPanel from './components/HeaderPanel/HeaderPanel';
 import {GlobalStyle} from './styles/appDefaultStyles';
@@ -26,8 +25,6 @@ export default class App extends Component {
     }
 
     init = async () => {
-        const lang = this.state.currentLang;
-        await initTranslation({lang});
         this.setState({initCompleted: true});
     };
 
